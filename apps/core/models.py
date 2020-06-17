@@ -62,12 +62,22 @@ class Product(models.Model):
     color = models.CharField(max_length=10, choices=COLOR_CHOICES, default='b')
     color_int = models.IntegerField(choices=COLOR_INT_CHOICES, default=0)
 
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True)
+    category = models.ForeignKey(
+        Category,
+        on_delete=models.CASCADE,
+        null=True,
+        related_name='products'
+    )
     tag = models.ManyToManyField(Tag)
     # description = models.TextField('Описание')
+    image = models.ImageField(blank=True, null=True)
 
     class Meta:
         ordering = ('title',)
 
     def __str__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+
+        super().save(*args, **kwargs)

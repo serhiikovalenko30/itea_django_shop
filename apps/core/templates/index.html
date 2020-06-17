@@ -6,12 +6,25 @@
 <body>
     <p>Категории:</p>
     <ul>
-        <li>Первая категория</li>
+        {% for category in category_list %}
+            Продукты категории {{ category.title }}
+            {% for product in category.products.all %}
+                <li>{{ product.title }}, {{ product.price }}</li>
+            {% endfor %}
+        {% endfor %}
     </ul>
 
     <p>Продукты:</p>
     <ul>
-        <li>продукт</li>
+        {% for product in product_list %}
+        <li>{{ product.title }}, {{ product.price }}. Категория: {{ product.category.title }}</li>
+        {% if product.image %}
+            {{ product.image.url }}
+        {% endif %}
+            {% for tag in product.tag.all %}
+                {{ tag }},
+            {% endfor %}
+        {% endfor %}
     </ul>
 
 </body>
