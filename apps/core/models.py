@@ -2,6 +2,24 @@ from django.db import models
 from django.core.validators import MaxValueValidator
 
 
+class Category(models.Model):
+    title = models.CharField(max_length=255)
+
+    class Meta:
+        verbose_name = 'category'
+        verbose_name_plural = 'categories'
+
+    def __str__(self):
+        return self.title
+
+
+class Tag(models.Model):
+    name = models.CharField(max_length=128)
+
+    def __str__(self):
+        return self.name
+
+
 class Product(models.Model):
     title = models.CharField(
         verbose_name='Название',
@@ -18,6 +36,7 @@ class Product(models.Model):
         null=True,
         validators=[MaxValueValidator(100)]
     )
+    bonus_positive = models.PositiveIntegerField(default=1)
     price = models.FloatField()
     active = models.BooleanField()
 
@@ -43,4 +62,12 @@ class Product(models.Model):
     color = models.CharField(max_length=10, choices=COLOR_CHOICES, default='b')
     color_int = models.IntegerField(choices=COLOR_INT_CHOICES, default=0)
 
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True)
+    tag = models.ManyToManyField(Tag)
     # description = models.TextField('Описание')
+
+    class Meta:
+        ordering = ('title',)
+
+    def __str__(self):
+        return self.title
