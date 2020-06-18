@@ -1,6 +1,7 @@
 .vscode
 env
 __pycache__
+static_content
 
 *.sqlite3
 *.py[cod]
