@@ -1,5 +1,5 @@
 from django.db import models
-from django.core.validators import MaxValueValidator
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 
 class Category(models.Model):
@@ -9,8 +9,8 @@ class Category(models.Model):
     title = models.CharField(max_length=255)
 
     class Meta:
-        verbose_name = 'category'  # отображение названия модели в админке
-        verbose_name_plural = 'categories'  # во множественном числе
+        verbose_name = 'категория'  # отображение названия модели в админке
+        verbose_name_plural = 'категории'  # во множественном числе
         ordering = ('title',)  # сортировка по title (в алфавитном порядке)
 
     def __str__(self):
@@ -18,10 +18,11 @@ class Category(models.Model):
 
 
 class Tag(models.Model):
-    """
-        Класс описывает таблицу и поля в базе данных для сущности Tag
-    """
     name = models.CharField(max_length=128)
+
+    class Meta:
+        verbose_name = 'тег'
+        verbose_name_plural = 'теги'
 
     def __str__(self):
         return self.name
@@ -32,56 +33,65 @@ class Product(models.Model):
         Класс описывает таблицу и поля в базе данных для сущности Product
     """
     title = models.CharField(
-        verbose_name='Название',
+        verbose_name='название',
         max_length=255,
         help_text='Максимальная длина 255 символов',
-        unique_for_date='date',  # пара значений полей title и date должна быть уникальной
-        error_messages={'unique_for_date': 'some error'}
     )
-    description = models.TextField(verbose_name='Описание', blank=True)
-    email = models.EmailField()
-    url = models.URLField()
-    bonus = models.PositiveIntegerField(
-        blank=True,
-        null=True,
-        validators=[MaxValueValidator(100)]
-    )
-    price = models.FloatField()
-    active = models.BooleanField()
-
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    date = models.DateTimeField()
-
-    test_file = models.FileField(upload_to='product')
-
-    COLOR_CHOICES = (
-        ('b', 'black'),  # 'b' - записывается в БД, 'black' - отображается в админке
-        ('w', 'white'),
-        ('r', 'red')
-    )
-
-    COLOR_INT_CHOICES = (
-        (0, 'black'),
-        (1, 'white'),
-        (2, 'red')
-    )
-
-    color = models.CharField(max_length=10, choices=COLOR_CHOICES, default='b')
-    color_int = models.IntegerField(choices=COLOR_INT_CHOICES, default=0)
-
     category = models.ForeignKey(
         Category,
-        on_delete=models.CASCADE,  # (при удалении Category - удаляются все связанные Product)
+        verbose_name='категория',
+        on_delete=models.SET_NULL,
         null=True,
-        related_name='products'  # ключ, по которому можно взять связанные Product из Category (category_obj.products.all())
+        related_name='products',
     )
-    tag = models.ManyToManyField(Tag)
-    image = models.ImageField(blank=True, null=True, upload_to='product')
+    tag = models.ManyToManyField(
+        Tag,
+        verbose_name='теги',
+        blank=True,
+    )
+    description = models.TextField(
+        verbose_name='описание',
+        blank=True,
+    )
+    image = models.ImageField(
+        verbose_name='изображение',
+        upload_to='product',
+        blank=True,
+        null=True,
+    )
+    price = models.FloatField(
+        verbose_name='цена',
+    )
+    discount = models.FloatField(
+        verbose_name='скидка',
+        validators=[
+            MinValueValidator(0.0),
+            MaxValueValidator(100.0)
+        ],
+        default=0,
+    )
+    bonus = models.PositiveIntegerField(
+        verbose_name='бонус',
+        default=1,
+    )
+    is_stock = models.BooleanField(
+        verbose_name='в наличии?',
+        default=True,
+    )
+
+    created_at = models.DateTimeField(
+        verbose_name='дата создания',
+        auto_now_add=True,
+    )
+    updated_at = models.DateTimeField(
+        verbose_name='дата последнего изменения',
+        auto_now=True,
+    )
 
     class Meta:
-        ordering = ('title',)
+        verbose_name = 'товар'
+        verbose_name_plural = 'товары'
+        ordering = ('-pk',)
 
     def __str__(self):
         return self.title
