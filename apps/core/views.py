@@ -18,8 +18,10 @@ def category_list(request):
     return render(request, 'core/category_list.html', context)
 
 
-def category_detail(request):
+def category_detail(request, slug):
     context = {}
+    category = Category.objects.filter(slug=slug).first()
+    context['category'] = category
     return render(request, 'core/category.html', context)
 
 
@@ -28,6 +30,8 @@ def product_list(request):
     return render(request, 'core/product_list.html', context)
 
 
-def product_detail(request):
+def product_detail(request, slug_category, pk):
     context = {}
+    product = Product.objects.filter(pk=pk).first()
+    context['product'] = product
     return render(request, 'core/product.html', context)

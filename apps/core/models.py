@@ -1,5 +1,7 @@
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.utils.text import slugify
+from django.urls import reverse
 
 
 class Category(models.Model):
@@ -7,6 +9,7 @@ class Category(models.Model):
         Класс описывает таблицу и поля в базе данных для сущности Category
     """
     title = models.CharField(max_length=255)
+    slug = models.SlugField(allow_unicode=True, default='', blank=True)
 
     class Meta:
         verbose_name = 'категория'  # отображение названия модели в админке
@@ -15,6 +18,13 @@ class Category(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse('core:category-detail', kwargs={'slug': self.slug})
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title, allow_unicode=True)
+        super().save(*args, **kwargs)
 
 
 class Tag(models.Model):
@@ -95,6 +105,12 @@ class Product(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse('core:product-detail', kwargs={
+            'slug_category': self.category.slug,
+            'pk': self.pk
+        })
 
     def save(self, *args, **kwargs):
         # здесь описываем логику до сохранения объекта

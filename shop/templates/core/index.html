@@ -12,10 +12,10 @@
     <header>
         <nav class="nav-wrapper indigo darken-4">
             <div class="container">
-                <a href="{% url 'index' %}" class="brand-logo">ITEA Shop</a>
+                <a href="{% url 'core:index' %}" class="brand-logo">ITEA Shop</a>
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
-                    <li><a href="{% url 'product-list' %}">Все товары</a></li>
-                    <li><a href="{% url 'category-list' %}">Категории</a></li>
+                    <li><a href="{% url 'core:product-list' %}">Все товары</a></li>
+                    <li><a href="{% url 'core:category-list' %}">Категории</a></li>
                     <li><a href="#">О нас</a></li>
                 </ul>
             </div>
@@ -28,7 +28,8 @@
             <div class="row">
                 <div class="col">
                     {% for category in category_list %}
-                        <a href="#">{{ category.title }}</a>
+                        {% comment %} <a href="{% url 'category-detail' category.slug %}">{{ category.title }}</a> {% endcomment %}
+                        <a href="{{ category.get_absolute_url }}">{{ category.title }}</a>
                     {% endfor %}
                 </div>
             </div>
@@ -47,6 +48,7 @@
                                 <span class="card-title activator grey-text text-darken-4">{{ product.title }}<i class="material-icons right">more_vert</i></span>
                                 <a class="waves-effect waves-teal btn-flat">{{ product.price }} грн.</a>
                                 <a class="waves-effect waves-light btn indigo darken-4">Купить</a>
+                                <a class="waves-effect waves-light btn indigo darken-4" href="{{ product.get_absolute_url }}">Подробнее</a>
                             </div>
                             <div class="card-reveal">
                                 <span class="card-title grey-text text-darken-4">{{ product.title }}<i class="material-icons right">close</i></span>
