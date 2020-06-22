@@ -6,7 +6,7 @@ from apps.core.models import Category, Product, Tag
 def index(request):
     context = {}
     category_qs = Category.objects.all()
-    product_qs = Product.objects.order_by('-title')
+    product_qs = Product.objects.order_by('-title')[:3]
 
     context['category_list'] = category_qs
     context['product_list'] = product_qs

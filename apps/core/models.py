@@ -74,7 +74,7 @@ class Product(models.Model):
         verbose_name='бонус',
         default=1,
     )
-    is_stock = models.BooleanField(
+    in_stock = models.BooleanField(
         verbose_name='в наличии?',
         default=True,
     )
