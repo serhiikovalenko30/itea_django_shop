@@ -10,16 +10,7 @@
 <body>
 
     <header>
-        <nav class="nav-wrapper indigo darken-4">
-            <div class="container">
-                <a href="{% url 'index' %}" class="brand-logo">ITEA Shop</a>
-                <ul id="nav-mobile" class="right hide-on-med-and-down">
-                    <li><a href="{% url 'product-list' %}">Все товары</a></li>
-                    <li><a href="{% url 'category-list' %}">Категории</a></li>
-                    <li><a href="#">О нас</a></li>
-                </ul>
-            </div>
-        </nav>
+        {% include 'components/header.html' %}
     </header>
 
     <main>

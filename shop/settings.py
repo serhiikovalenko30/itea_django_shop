@@ -85,6 +85,16 @@ DATABASES = {
     }
 }
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'shop',
+#         'USER': 'swaldom',
+#         'PASSWORD': '',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -130,5 +140,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'static_content', 'media')
 
 STATICFILES_DIRS = (
     os.path.join(PROJECT_DIR, 'static'),
-    os.path.join(PROJECT_DIR, 'core', 'static'),
 )
