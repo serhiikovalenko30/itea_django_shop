@@ -23,6 +23,8 @@ def category_detail(request, slug):
     # category = Category.objects.filter(slug=slug).first()
     category = get_object_or_404(Category, slug=slug)
     context['category'] = category
+    # category.views += 1
+    # category.save()
     return render(request, 'core/category.html', context)
 
 
