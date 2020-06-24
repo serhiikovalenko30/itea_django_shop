@@ -1,6 +1,8 @@
+{% load custom_tags %}
+
 <nav class="nav-wrapper indigo darken-4">
     <div class="container">
-        <a href="{% url 'core:index' %}" class="brand-logo">{{ title }}</a>
+        <a href="{% url 'core:index' %}" class="brand-logo">{% get_title 'param' text="some text" %}</a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
             <li><a href="{% url 'core:product-list' %}">Все товары</a></li>
             <li><a href="{% url 'core:category-list' %}">Категории</a></li>

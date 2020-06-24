@@ -2,7 +2,7 @@
 {% load static custom_filters %}
 
 {% block main %}
-    {{ block.super }}
+    {{ request.GET }}
     <div class="container">
         <h1 class="header center">Главная {{ '38099334455'|formatted_phone }}</h1>
         <div class="row">
