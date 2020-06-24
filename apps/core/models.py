@@ -116,3 +116,26 @@ class Product(models.Model):
         # здесь описываем логику до сохранения объекта
         super().save(*args, **kwargs)
         # здесь описываем логику после сохранения объекта
+
+
+class Contacts(models.Model):
+    title = models.CharField(max_length=128)
+    address = models.TextField()
+    phone = models.CharField(max_length=20)
+
+    def save(self, *args, **kwargs):
+        self.pk = 1
+        # self.__class__.objects.exclude(pk=self.pk).delete()
+        super().save(*args, **kwargs)
+
+    @classmethod
+    def load(cls):
+        obj, created = cls.objects.get_or_create(
+            pk=1,
+            defaults={
+                'title': 'ITEA Shop',
+                'address': 'Kiev, some street',
+                'phone': '0800778899'
+            }
+        )
+        return obj

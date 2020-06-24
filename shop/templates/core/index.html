@@ -1,16 +1,16 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static custom_filters %}
 
 {% block main %}
     {{ block.super }}
     <div class="container">
-        <h1 class="header center">Главная {{ product_list|length }}</h1>
+        <h1 class="header center">Главная {{ '38099334455'|formatted_phone }}</h1>
         <div class="row">
             <div class="col">
                 {{ "It's django application"|addslashes }}
                 {% for category in category_list %}
                     {% comment %} <a href="{% url 'category-detail' category.slug %}">{{ category.title }}</a> {% endcomment %}
-                    <a href="{{ category.get_absolute_url }}">{{ category.title|cut:"Some" }}</a>
+                    <a href="{{ category.get_absolute_url }}">{{ category.title|cut_filter:"title" }}</a>
                 {% endfor %}
             </div>
         </div>
