@@ -1,0 +1,27 @@
+{% load static %}
+
+{% for product in product_list %}
+    <div class="col s12 m6 l4">
+        <div class="card">
+            <div class="card-image waves-effect waves-block waves-light">
+                {% if product.image %}
+                    <a href="{{ product.get_absolute_url }}"><img class="product-img" src="{{ product.image.url }}"></a>
+                {% else %}
+                    <img src="{% static 'img/no_img.png' %}">
+                {% endif %}
+            </div>
+            <div class="card-content">
+                <span class="card-title grey-text text-darken-4">{{ product.title }}<i class="material-icons right activator">more_vert</i></span>
+                <a class="waves-effect waves-teal btn-flat">{{ product.price }} грн.</a>
+                <a class="waves-effect waves-light btn indigo darken-4">Купить</a>
+                <a class="waves-effect waves-light btn indigo darken-4">В корзину</a>
+            </div>
+            <div class="card-reveal">
+                <span class="card-title grey-text text-darken-4">{{ product.title }}<i class="material-icons right">close</i></span>
+                {% autoescape off %}
+                    <p>{{ product.description|default:"some description"|escape }}</p>
+                {% endautoescape %}
+            </div>
+        </div>
+    </div>
+{% endfor %}

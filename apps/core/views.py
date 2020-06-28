@@ -14,6 +14,8 @@ def index(request):
 
 def category_list(request):
     context = {}
+    category_qs = Category.objects.all()
+    context['category_list'] = category_qs
     return render(request, 'core/category_list.html', context)
 
 
@@ -27,8 +29,6 @@ def category_detail(request, slug):
 
 def product_list(request):
     context = {}
-    print(request.GET)
-    print(request.POST)
     order = request.GET.get('order', '-created_at')
     context['product_list'] = Product.objects.order_by(order)
     return render(request, 'core/product_list.html', context)

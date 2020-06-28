@@ -1,14 +1,18 @@
-{% load static custom_tags %}
+{% load static inclusion_tags %}
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
     <title>ITEA Shop</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    {% block style %}
-        <link rel="stylesheet" href="{% static 'css/main.css' %}">
-    {% endblock style %}
+    {% comment %} <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"> {% endcomment %}
+    <link rel="stylesheet" href="{% static 'css/materialize.min.css' %}">
+
+    {% block styles %}
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    {% endblock styles %}
+
 </head>
 <body>
 
@@ -18,7 +22,6 @@
 
     <main>
         {% block main %}
-            default main
         {% endblock main %}
     </main>
 
@@ -27,7 +30,13 @@
         {% footer %}
     </footer>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    {% comment %} <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script> {% endcomment %}
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/materialize.min.js' %}"></script>
+
+    {% block scripts %}
     <script src="{% static 'js/main.js' %}"></script>
+    {% endblock scripts %}
+
 </body>
 </html>

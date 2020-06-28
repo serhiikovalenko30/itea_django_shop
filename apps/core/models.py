@@ -1,7 +1,12 @@
+from autoslug import AutoSlugField
+
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.utils.text import slugify
 from django.urls import reverse
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 
 class Category(models.Model):
@@ -9,7 +14,14 @@ class Category(models.Model):
         Класс описывает таблицу и поля в базе данных для сущности Category
     """
     title = models.CharField(max_length=255)
-    slug = models.SlugField(allow_unicode=True, default='', blank=True)
+    description = models.TextField(blank=True)
+    # slug = models.SlugField(allow_unicode=True, default='', blank=True)
+    slug = AutoSlugField(
+        populate_from='title',
+        always_update=True,
+        unique=True,
+        null=True
+    )
 
     class Meta:
         verbose_name = 'категория'  # отображение названия модели в админке
@@ -23,7 +35,7 @@ class Category(models.Model):
         return reverse('core:category-detail', kwargs={'slug': self.slug})
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.title, allow_unicode=True)
+        # self.slug = slugify(self.title, allow_unicode=True)
         super().save(*args, **kwargs)
 
 
