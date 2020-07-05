@@ -2,6 +2,7 @@ body {
     display: flex;
     min-height: 100vh;
     flex-direction: column;
+    padding-top: 56px;
 }
 
 main {
@@ -10,4 +11,8 @@ main {
 
 .activator {
     cursor: pointer;
+}
+
+.bg-primary {
+    background-color: #1a237e!important;
 }

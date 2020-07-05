@@ -4,6 +4,7 @@ from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.utils.text import slugify
 from django.urls import reverse
+
 from django.contrib.auth import get_user_model
 
 User = get_user_model()

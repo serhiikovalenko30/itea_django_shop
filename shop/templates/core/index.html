@@ -2,28 +2,7 @@
 {% load static custom_filters %}
 
 {% block main %}
-    <div class="container">
-        <h1 class="header center">Главная</h1>
-        <h4 class="header">Популярные категории</h4>
-        <div class="row">
-            {% for category in category_list %}
-                <div class="col s4 m4">
-                    <div class="card horizontal">
-                        <div class="card-stacked">
-                            <div class="card-action">
-                                <a href="{{ category.get_absolute_url }}">{{ category.title }}</a>
-                            </div>
-                            {% comment %} <div class="card-content">
-                                <p>{{ category.description }}</p>
-                            </div> {% endcomment %}
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
-        <h4 class="header">Популярные товары</h4>
-        <div class="row">
-            {% include 'core/components/product_list.html' %}
-        </div>
+    <div class="row">
+        {% include 'core/components/product_list.html' %}
     </div>
 {% endblock main %}

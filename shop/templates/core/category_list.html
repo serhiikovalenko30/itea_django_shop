@@ -5,18 +5,7 @@
     <div class="container">
         <h1 class="header center">Категории</h1>
         <div class="row">
-            <ul class="collection with-header">
-                {% for category in category_list %}
-                    <li class="collection-item">
-                        <div>
-                            {{ category.title|title }} ({{ category.products.count }})
-                            <a href="{{ category.get_absolute_url }}" class="secondary-content">
-                                <i class="material-icons">send</i>
-                            </a>
-                        </div>
-                    </li>
-                {% endfor %}
-            </ul>
+
         </div>
     </div>
 {% endblock main %}
