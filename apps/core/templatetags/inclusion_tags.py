@@ -14,9 +14,8 @@ def footer():
     return context
 
 
-@register.inclusion_tag('components/header.html')
-def header():
-    context = {}
+@register.inclusion_tag('components/header.html', takes_context=True)
+def header(context):
     context['category_list'] = Category.objects.all()
     return context
 

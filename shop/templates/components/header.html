@@ -9,15 +9,16 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             {% if user.is_authenticated %}
-            <button class="btn btn-primary my-2 my-sm-0 ml-auto">Личный кабинет</button>
-            <button class="btn btn-danger my-2 my-sm-0 ml-sm-2">Выйти</button>
+                <button class="btn btn-primary my-2 my-sm-0 ml-auto">Личный кабинет, {{ user }}</button>
+                <button class="btn btn-danger my-2 my-sm-0 ml-sm-2">Выйти</button>
             {% else %}
-            <button class="btn btn-success my-2 my-sm-0 ml-auto">Войти</button>
-            <button class="btn btn-primary my-2 my-sm-0 ml-sm-2">Зарегистрироваться</button>
+                <button class="btn btn-success my-2 my-sm-0 ml-auto">Войти</button>
+                <button class="btn btn-primary my-2 my-sm-0 ml-sm-2">Зарегистрироваться</button>
             {% endif %}
         </div>
     </div>
 </nav>
+
 <div class="container">
     <div class="nav-scroller py-1 mb-2">
         <nav class="nav d-flex justify-content-between">

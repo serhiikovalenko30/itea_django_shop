@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 LOCAL_APPS = [
     # 'apps.core',
     'apps.core.apps.CoreConfig',
+    'apps.order.apps.OrderConfig',
 ]
 
 INSTALLED_APPS = [
