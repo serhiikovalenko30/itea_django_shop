@@ -1,7 +1,9 @@
 from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
+from django.http import HttpResponseRedirect
 
 from apps.core.models import Category, Product, Tag
+from apps.core.forms import ContactUsModelForm
 
 
 def index(request):
@@ -44,3 +46,23 @@ def product_detail(request, slug_category, pk):
     ).first()
     context['product'] = product
     return render(request, 'core/product.html', context)
+
+
+def contact_us(request):
+    context = {}
+    form = ContactUsModelForm()
+
+    if request.method == 'POST':
+        form = ContactUsModelForm(request.POST)
+        # form = ContactUsModelForm({
+        #     'name': request.POST.get('name'),
+        #     'user': request.user
+        # })
+        if form.is_valid():
+            contactus_obj = form.save(commit=False)
+            contactus_obj.email = 'some@test.test'
+            contactus_obj.save()
+            return HttpResponseRedirect('/')
+
+    context['form'] = form
+    return render(request, 'core/contact_us.html', context)

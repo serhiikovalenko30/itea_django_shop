@@ -152,3 +152,14 @@ class Contacts(models.Model):
             }
         )
         return obj
+
+
+class ContactUs(models.Model):
+    name = models.CharField(max_length=255, blank=True, null=True)
+    email = models.EmailField(blank=True, null=True)
+    subject = models.CharField(max_length=255)
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name_plural = 'contact us'

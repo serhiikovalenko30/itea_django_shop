@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from apps.core.models import Category, Tag, Product, Contacts
+from apps.core.models import Category, Tag, Product, Contacts, ContactUs
 
 
 class ProductInline(admin.TabularInline):
@@ -33,6 +33,9 @@ class ContactsAdmin(admin.ModelAdmin):
     #     return False
 
 
-# admin.site.register(Category)
-# admin.site.register(Product)
+@admin.register(ContactUs)
+class ContactUsAdmin(admin.ModelAdmin):
+    pass
+
+
 admin.site.register(Tag)
