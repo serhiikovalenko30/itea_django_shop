@@ -1,7 +1,10 @@
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, get_object_or_404
+from django.urls import reverse_lazy
 
-from django.views.generic import View, TemplateView, ListView
+from django.views.generic import (
+    View, TemplateView, ListView, DetailView, FormView,
+)
 
 from apps.core.forms import ContactUsModelForm
 from apps.core.models import Category, Product
@@ -26,11 +29,11 @@ class IndexTemplateView(TemplateView):
         return context
 
 
-def index(request):
-    context = {}
-    product_qs = Product.objects.order_by('-created_at')[:3]
-    context['product_list'] = product_qs
-    return render(request, 'core/index.html', context)
+# def index(request):
+#     context = {}
+#     product_qs = Product.objects.order_by('-created_at')[:3]
+#     context['product_list'] = product_qs
+#     return render(request, 'core/index.html', context)
 
 
 class CategoryListView(ListView):
@@ -44,11 +47,22 @@ class CategoryListView(ListView):
         return context
 
 
-def category_list(request):
-    context = {}
-    category_qs = Category.objects.all()
-    context['category_list'] = category_qs
-    return render(request, 'core/category_list.html', context)
+# def category_list(request):
+#     context = {}
+#     category_qs = Category.objects.all()
+#     context['category_list'] = category_qs
+#     return render(request, 'core/category_list.html', context)
+
+
+class CategoryDetailView(DetailView):
+    model = Category
+    template_name = 'core/category.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        category = context['category']
+        context['product_list'] = category.products.all()
+        return context
 
 
 def category_detail(request, slug):
@@ -76,6 +90,19 @@ def product_detail(request, slug_category, pk):
     ).first()
     context['product'] = product
     return render(request, 'core/product.html', context)
+
+
+class ContactUsFormView(FormView):
+    form_class = ContactUsModelForm
+    template_name = 'core/contact_us.html'
+    success_url = reverse_lazy('core:index')
+
+    def form_invalid(self, form):
+        return JsonResponse(form.errors)
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
 
 
 def contact_us(request):
