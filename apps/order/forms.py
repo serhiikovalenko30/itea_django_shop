@@ -7,4 +7,4 @@ class OrderForm(forms.ModelForm):
 
     class Meta:
         model = Order
-        exclude = ('user', 'complete')
+        exclude = ('complete',)

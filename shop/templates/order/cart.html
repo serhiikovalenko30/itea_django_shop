@@ -35,9 +35,10 @@
                         <strong>{{ item.total_price }} грн. <span class="text-muted"></span></strong>
                     </h6>
                 </div>
-                <div class="col text-md-right">
-                    <button class="btn btn-outline-danger btn-xs">x</button>
-                </div>
+                <form class="col text-md-right" action="{% url 'order:cart-remove' product.pk %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-danger btn-xs">x</button>
+                </form>
             </div>
         </div>
         <hr>
@@ -47,8 +48,8 @@
     {% endfor %}
     {% if cart %}
     <div class="form-group btn-block btn-group">
-        <button class="btn btn-block btn-danger mt-3">Очистить корзину</button>
-        <button class="btn btn-block btn-success mt-3">Оформить заказ</button>
+        <a href="{% url 'order:cart-clear' %}" class="btn btn-block btn-danger mt-3">Очистить корзину</a>
+        <a href="{% url 'order:checkout' %}" class="btn btn-block btn-success mt-3">Оформить заказ</a>
     </div>
     {% endif %}
 </div>

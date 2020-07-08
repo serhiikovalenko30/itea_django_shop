@@ -23,8 +23,8 @@
             <form class="card-footer" action="{% url 'order:cart-add' product.pk %}" method="POST">
                 {% csrf_token %}
                 <button class="btn btn-success">Купить</button>
-                {% if product.pk in request.session.cart %}
-                    <button class="btn btn-warning" disabled>В корзине</button>
+                {% if product.pk|slugify in request.session.cart %}
+                    <button type="submit" class="btn btn-secondary">В корзине</button>
                 {% else %}
                     <button type="submit" class="btn btn-warning">В корзину</button>
                 {% endif %}

@@ -11,6 +11,12 @@ from apps.order.forms import OrderForm
 class CartTemplateView(TemplateView):
     template_name = 'order/cart.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['cart'] = Cart(self.request)
+        print(len(context['cart']))
+        return context
+
 
 class CartAddView(View):
 
@@ -20,3 +26,58 @@ class CartAddView(View):
         cart = Cart(request)
         cart.add(product)
         return redirect('core:product-list')
+
+
+class CartRemoveView(View):
+
+    def post(self, request, *args, **kwargs):
+        pk = kwargs.get('pk')
+        product = get_object_or_404(Product, pk=pk)
+        cart = Cart(request)
+        cart.remove(product)
+        return redirect('order:cart')
+
+
+class CartClearView(RedirectView):
+    pattern_name = 'core:index'
+
+    def get_redirect_url(self, *args, **kwargs):
+        Cart(self.request).clear()
+        return super().get_redirect_url(*args, **kwargs)
+
+
+class CheckoutTemplateView(TemplateView):
+    template_name = 'order/checkout.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['cart'] = Cart(self.request)
+        return context
+
+    def post(self, request, *args, **kwargs):
+
+        if request.user.is_authenticated:
+            form = OrderForm(request.POST.update({
+                'user': request.user,
+                'name': request.user.first_name,
+                'surname': request.user.last_name,
+                'phone': '380999999999',
+                'email': request.user.email,
+            }))
+        else:
+            form = OrderForm(request.POST)
+
+        if form.is_valid():
+            order = form.save()
+            cart = Cart(request)
+            for item in cart:
+                OrderProduct.objects.create(
+                    order=order,
+                    product=item['product'],
+                    quantity=item['quantity']
+                )
+            cart.clear()
+        else:
+            return JsonResponse(form.errors)
+
+        return redirect('core:index')

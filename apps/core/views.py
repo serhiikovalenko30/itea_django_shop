@@ -40,6 +40,7 @@ class CategoryListView(ListView):
     template_name = 'core/category_list.html'
     queryset = Category.objects.all().order_by('?')
     context_object_name = 'categories'
+    paginate_by = 2
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
