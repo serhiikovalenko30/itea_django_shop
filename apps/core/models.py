@@ -2,7 +2,6 @@ from autoslug import AutoSlugField
 
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
-from django.utils.text import slugify
 from django.urls import reverse
 
 from django.contrib.auth import get_user_model
@@ -124,6 +123,10 @@ class Product(models.Model):
             'slug_category': self.category.slug,
             'pk': self.pk
         })
+
+    @property
+    def actual_price(self):
+        return round(self.price * (1 - self.discount / 100), 2)
 
     def save(self, *args, **kwargs):
         # здесь описываем логику до сохранения объекта

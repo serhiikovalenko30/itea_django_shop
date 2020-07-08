@@ -14,12 +14,19 @@
                 <h4 class="card-title">
                     <a href="{{ product.get_absolute_url }}">{{ product.title }}</a>
                 </h4>
-                <h5>{{ product.price }} грн</h5>
+                <h5>
+                    {{ product.actual_price }} грн
+                    {% if product.discount %}<del>{{ product.price }} грн</del>{% endif %}
+                </h5>
                 <p class="card-text">{{ product.description|truncatechars:50 }}</p>
             </div>
             <div class="card-footer">
                 <button class="btn btn-success">Купить</button>
-                <button class="btn btn-warning">В корзину</button>
+                {% if product.pk in request.session.cart %}
+                    <button class="btn btn-warning" disabled>В корзине</button>
+                {% else %}
+                    <button class="btn btn-warning">В корзину</button>
+                {% endif %}
             </div>
         </div>
     </div>

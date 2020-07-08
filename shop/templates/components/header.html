@@ -27,7 +27,7 @@
             <a class="p-2 text-muted dropdown-toggle" href="#" id="dropdownCategories" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Категории</a>
             <div class="dropdown-menu" aria-labelledby="dropdownCategories">
                 {% for category in category_list %}
-                    <a class="dropdown-item" href="{{ category.get_absolute_url }}">{{ category.title|title }}</a>
+                    <a class="dropdown-item" href="{{ category.get_absolute_url }}">{{ category.title|title }} ({{ category.products.count }})</a>
                 {% endfor %}
             </div>
             <a class="p-2 text-muted" href="#">О нас</a>

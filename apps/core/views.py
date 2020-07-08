@@ -1,9 +1,8 @@
-from django.shortcuts import render, get_object_or_404
-from django.utils import timezone
 from django.http import HttpResponseRedirect, JsonResponse
+from django.shortcuts import render, get_object_or_404
 
-from apps.core.models import Category, Product, Tag
 from apps.core.forms import ContactUsModelForm
+from apps.core.models import Category, Product
 
 
 def index(request):
@@ -23,7 +22,6 @@ def category_list(request):
 
 def category_detail(request, slug):
     context = {}
-    # category = Category.objects.filter(slug=slug).first()
     category = get_object_or_404(Category, slug=slug)
     context['category'] = category
     return render(request, 'core/category.html', context)
@@ -33,6 +31,7 @@ def product_list(request):
     context = {}
     order = request.GET.get('order', '-created_at')
     search = request.GET.get('search', '')
+
     context['product_list'] = Product.objects.filter(
         title__icontains=search
     ).order_by(order)
