@@ -1,7 +1,7 @@
 from apps.core.models import Product
 
 
-class Cart(object):
+class Cart:
 
     def __init__(self, request):
         self.session = request.session

@@ -1,8 +1,29 @@
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, get_object_or_404
 
+from django.views.generic import View, TemplateView, ListView
+
 from apps.core.forms import ContactUsModelForm
 from apps.core.models import Category, Product
+
+
+class IndexView(View):
+
+    def get(self, request, *args, **kwargs):
+        context = {}
+        product_qs = Product.objects.order_by('-created_at')[:3]
+        context['product_list'] = product_qs
+        return render(request, 'core/index.html', context)
+
+
+class IndexTemplateView(TemplateView):
+    template_name = 'core/index.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        product_qs = Product.objects.order_by('-created_at')[:3]
+        context['product_list'] = product_qs
+        return context
 
 
 def index(request):
@@ -12,10 +33,20 @@ def index(request):
     return render(request, 'core/index.html', context)
 
 
+class CategoryListView(ListView):
+    template_name = 'core/category_list.html'
+    queryset = Category.objects.all().order_by('?')
+    context_object_name = 'categories'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['some'] = 'value'
+        return context
+
+
 def category_list(request):
     context = {}
-    category_qs = Category.objects.filter(title='some')
-
+    category_qs = Category.objects.all()
     context['category_list'] = category_qs
     return render(request, 'core/category_list.html', context)
 
