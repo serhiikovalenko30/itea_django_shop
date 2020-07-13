@@ -23,10 +23,12 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('apps.core.urls', namespace='core')),
     path('', include('apps.order.urls', namespace='order')),
+    path('users/', include('apps.users.urls', namespace='users')),
     path('soon/', TemplateView.as_view(
         template_name='soon.html',
         extra_context={'title': 'some title'}
-    ), name='soon')
+    ), name='soon'),
+    # path('account/', include('django.contrib.auth.urls')),
 ]
 
 if settings.DEBUG:

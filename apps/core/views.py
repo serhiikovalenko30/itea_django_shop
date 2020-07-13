@@ -1,6 +1,10 @@
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
 
 from django.views.generic import (
     View, TemplateView, ListView, DetailView, FormView,
@@ -21,6 +25,10 @@ class IndexView(View):
 
 class IndexTemplateView(TemplateView):
     template_name = 'core/index.html'
+
+    # @method_decorator(login_required)
+    # def dispatch(self, request, *args, **kwargs):
+    #     return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

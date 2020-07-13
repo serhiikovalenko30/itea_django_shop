@@ -31,10 +31,6 @@ class ContactUsModelForm(forms.ModelForm, PhoneFormMixin):
         # fields = '__all__'
         # exclude = ('name', )
 
-    def clean(self):
-        cleaned_data = super().clean()
-
-
     def clean_name(self):
         name = self.cleaned_data.get('name')
 

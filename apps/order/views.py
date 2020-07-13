@@ -57,13 +57,15 @@ class CheckoutTemplateView(TemplateView):
     def post(self, request, *args, **kwargs):
 
         if request.user.is_authenticated:
-            form = OrderForm(request.POST.update({
+            form_params = request.POST.copy()
+            form_params.update({
                 'user': request.user,
-                'name': request.user.first_name,
-                'surname': request.user.last_name,
-                'phone': '380999999999',
+                'name': request.user.name,
+                'surname': request.user.surname,
+                'phone': request.user.phone,
                 'email': request.user.email,
-            }))
+            })
+            form = OrderForm(form_params)
         else:
             form = OrderForm(request.POST)
 

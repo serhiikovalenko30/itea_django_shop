@@ -34,6 +34,7 @@ LOCAL_APPS = [
     # 'apps.core',
     'apps.core.apps.CoreConfig',
     'apps.order.apps.OrderConfig',
+    'apps.users',
 ]
 
 INSTALLED_APPS = [
@@ -144,4 +145,8 @@ STATICFILES_DIRS = (
     os.path.join(PROJECT_DIR, 'static'),
 )
 
-LOGIN_URL = '/admin/login/'
+LOGIN_URL = '/users/login/'
+
+AUTH_USER_MODEL = 'users.CustomUser'
+
+AUTHENTICATION_BACKENDS = ('apps.users.backends.AuthModelBackend',)
