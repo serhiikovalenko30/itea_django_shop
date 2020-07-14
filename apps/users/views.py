@@ -1,11 +1,9 @@
-from django.shortcuts import redirect, render
-
-from django.urls import reverse_lazy
-
-from django.views.generic import FormView, RedirectView, TemplateView
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import redirect, render
+from django.urls import reverse_lazy
+from django.views.generic import FormView, RedirectView, TemplateView
 
 from apps.users.forms import RegisterForm
 

@@ -150,3 +150,23 @@ LOGIN_URL = '/users/login/'
 AUTH_USER_MODEL = 'users.CustomUser'
 
 AUTHENTICATION_BACKENDS = ('apps.users.backends.AuthModelBackend',)
+
+# SERVER_EMAIL = 'root@localhost'
+# ADMINS = (('Name', 'example@mail.com'),)
+
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+# EMAIL_FILE_PATH = 'mails/'
+
+# EMAIL_BACKEND = 'django.core.mail.backends.locmem.EmailBackend'
+
+# EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
+
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_HOST_USER = 'iteadjangotest@gmail.com'
+# EMAIL_HOST_PASSWORD = 'ITe@pass'
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True

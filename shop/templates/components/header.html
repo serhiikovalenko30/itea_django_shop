@@ -12,8 +12,8 @@
                 <a href="{% url 'users:profile' %}" class="btn btn-primary my-2 my-sm-0 ml-auto">Личный кабинет, {{ user }}</a>
                 <a href="{% url 'users:logout' %}" class="btn btn-danger my-2 my-sm-0 ml-sm-2">Выйти</a>
             {% else %}
-                <a href="{% url 'users:login' %}" class="btn btn-success my-2 my-sm-0 ml-auto">Войти</a>
-                <a href="{% url 'users:register' %}" class="btn btn-primary my-2 my-sm-0 ml-sm-2">Зарегистрироваться</a>
+                <button type="button" class="btn btn-success my-2 my-sm-0 ml-auto" data-toggle="modal" data-target="#login">Войти</button>
+                <button type="button" class="btn btn-primary my-2 my-sm-0 ml-sm-2" data-toggle="modal" data-target="#register">Зарегистрироваться</button>
             {% endif %}
         </div>
     </div>

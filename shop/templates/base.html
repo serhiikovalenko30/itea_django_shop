@@ -44,6 +44,11 @@
 
     {% include 'modals/contact_us.html' %}
 
+    {% if not user.is_authenticated %}
+    {% include 'users/modals/login.html' %}
+    {% include 'users/modals/register.html' %}
+    {% endif %}
+
     <script src="{% static 'js/jquery.min.js' %}"></script>
     <script src="{% static 'js/popper.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
