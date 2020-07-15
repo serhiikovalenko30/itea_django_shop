@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'autoslug',
+    'django_celery_beat',
 ] + LOCAL_APPS
 
 MIDDLEWARE = [
@@ -151,22 +152,49 @@ AUTH_USER_MODEL = 'users.CustomUser'
 
 AUTHENTICATION_BACKENDS = ('apps.users.backends.AuthModelBackend',)
 
-# SERVER_EMAIL = 'root@localhost'
-# ADMINS = (('Name', 'example@mail.com'),)
+SERVER_EMAIL = 'iteadjangotest@gmail.com'
+ADMINS = (('Name', 'example@mail.com'),)
+MANAGERS = (('Name', 'example@mail.com'),)
 
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 # EMAIL_FILE_PATH = 'mails/'
 
-# EMAIL_BACKEND = 'django.core.mail.backends.locmem.EmailBackend'
-
 # EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
 
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.locmem.EmailBackend'
 
-# EMAIL_HOST = 'smtp.gmail.com'
-# EMAIL_HOST_USER = 'iteadjangotest@gmail.com'
-# EMAIL_HOST_PASSWORD = 'ITe@pass'
-# EMAIL_PORT = 587
-# EMAIL_USE_TLS = True
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'iteadjangotest@gmail.com'
+EMAIL_HOST_PASSWORD = 'ITe@pass'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+# EMAIL_USE_SSL = True
+
+# messages = (
+#     ('subj', 'message', 'iteadjangotest@gmail.com', ['iteadjangotest1@gmail.com']),
+#     ('subj', 'message', 'iteadjangotest@gmail.com', ['iteadjangotest2@gmail.com']),
+#     ('subj', 'message', 'iteadjangotest@gmail.com', ['iteadjangotest3@gmail.com']),
+#     ('subj', 'message', 'iteadjangotest@gmail.com', ['iteadjangotest4@gmail.com']),
+# )
+
+# send_mass_mail(messages)
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6379/0',
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        }
+    }
+}
+
+CELERY_BROKER_URL = 'redis://127.0.0.1:6379/1'
+CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379/1'
+CELERY_TASK_IGNORE_RESULT = True
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'

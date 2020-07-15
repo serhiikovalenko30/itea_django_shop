@@ -16,6 +16,7 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
+from django.contrib.auth.views import PasswordResetConfirmView
 from django.urls import path, include
 from django.views.generic import TemplateView
 
@@ -24,11 +25,12 @@ urlpatterns = [
     path('', include('apps.core.urls', namespace='core')),
     path('', include('apps.order.urls', namespace='order')),
     path('users/', include('apps.users.urls', namespace='users')),
+    path('users/reset/<uidb64>/<token>/', PasswordResetConfirmView.as_view(),
+         name='password_reset_confirm'),
     path('soon/', TemplateView.as_view(
         template_name='soon.html',
         extra_context={'title': 'some title'}
     ), name='soon'),
-    # path('account/', include('django.contrib.auth.urls')),
 ]
 
 if settings.DEBUG:

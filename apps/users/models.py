@@ -1,7 +1,10 @@
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.db import models
+from django.conf import settings
+from django.core.mail import send_mail
 
 from apps.users.managers import CustomUserManager
+from apps.users.tasks import send_mail_task
 
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
@@ -22,3 +25,9 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     class Meta:
         verbose_name = 'custom user'
         verbose_name_plural = 'custom users'
+
+    def email_user(self, subject, message, **kwargs):
+        send_mail_task.delay(subject, message, [self.email], **kwargs)
+        # send_mail(
+        #     subject, message, settings.EMAIL_HOST_USER, [self.email], **kwargs
+        # )

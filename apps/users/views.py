@@ -55,5 +55,6 @@ class RegisterView(FormView):
 
     def form_valid(self, form):
         user = form.save()
+        user.email_user('successfully registration', 'WELCOME')
         login(self.request, user)
         return super().form_valid(form)

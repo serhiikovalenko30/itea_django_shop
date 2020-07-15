@@ -1,5 +1,7 @@
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import (
+    LoginRequiredMixin, PermissionRequiredMixin
+)
 
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, get_object_or_404
@@ -63,9 +65,15 @@ class CategoryListView(ListView):
 #     return render(request, 'core/category_list.html', context)
 
 
-class CategoryDetailView(DetailView):
+class CategoryDetailView(PermissionRequiredMixin, DetailView):
+    permission_required = ('core.view_category', 'core.add_category')
     model = Category
     template_name = 'core/category.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        # if not request.user.has_perm('core.view_category'):
+        #     return HttpResponseRedirect('/login/')
+        return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
