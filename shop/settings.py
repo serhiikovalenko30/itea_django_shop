@@ -198,3 +198,10 @@ CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379/1'
 CELERY_TASK_IGNORE_RESULT = True
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
+
+LOCALE_PATHS = (os.path.join(BASE_DIR, 'locale'),)
+
+LANGUAGES = (
+    ('ru', 'Russian'),
+    ('us', 'English'),
+)

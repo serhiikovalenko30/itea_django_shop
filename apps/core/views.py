@@ -3,6 +3,7 @@ from django.contrib.auth.mixins import (
     LoginRequiredMixin, PermissionRequiredMixin
 )
 
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
@@ -11,6 +12,7 @@ from django.utils.decorators import method_decorator
 from django.views.generic import (
     View, TemplateView, ListView, DetailView, FormView,
 )
+from django.views.generic.list import MultipleObjectMixin
 
 from apps.core.forms import ContactUsModelForm
 from apps.core.models import Category, Product
@@ -65,10 +67,12 @@ class CategoryListView(ListView):
 #     return render(request, 'core/category_list.html', context)
 
 
-class CategoryDetailView(PermissionRequiredMixin, DetailView):
+class CategoryDetailView(PermissionRequiredMixin, DetailView,
+                         MultipleObjectMixin):
     permission_required = ('core.view_category', 'core.add_category')
     model = Category
     template_name = 'core/category.html'
+    paginate_by = 2
 
     def dispatch(self, request, *args, **kwargs):
         # if not request.user.has_perm('core.view_category'):
@@ -76,9 +80,10 @@ class CategoryDetailView(PermissionRequiredMixin, DetailView):
         return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        category = context['category']
-        context['product_list'] = category.products.all()
+        object_list = self.get_object().products.all()
+        context = super().get_context_data(object_list=object_list, **kwargs)
+        # category = context['category']
+        # context['product_list'] = category.products.all()
         return context
 
 
@@ -89,14 +94,40 @@ def category_detail(request, slug):
     return render(request, 'core/category.html', context)
 
 
+class ProductListView(ListView):
+    template_name = 'core/product_list.html'
+    queryset = Product.objects.all()
+    paginate_by = 3
+
+    def get_queryset(self):
+        order = self.request.GET.get('order', '-created_at')
+        search = self.request.GET.get('search', '')
+        return Product.objects.filter(
+            title__icontains=search
+        ).order_by(order)
+
+
 def product_list(request):
     context = {}
     order = request.GET.get('order', '-created_at')
     search = request.GET.get('search', '')
+    page = request.GET.get('page', 1)
 
-    context['product_list'] = Product.objects.filter(
+    product_qs = Product.objects.filter(
         title__icontains=search
     ).order_by(order)
+
+    paginator = Paginator(product_qs, 3)
+
+    try:
+        product_qs = paginator.page(page)
+    except EmptyPage:
+        product_qs = paginator.page(paginator.num_pages)
+    except PageNotAnInteger:
+        product_qs = paginator.page(1)
+
+    context['product_list'] = product_qs
+    context['paginator'] = paginator
     return render(request, 'core/product_list.html', context)
 
 

@@ -20,7 +20,9 @@ def header(context):
     return context
 
 
-@register.inclusion_tag('core/components/category_list.html')
-def category_list():
-    category_qs = Category.objects.all()
-    return {'category_list': category_qs}
+@register.inclusion_tag(
+    'core/components/category_list.html', takes_context=True
+)
+def category_list(context):
+    context['category_list'] = Category.objects.all()
+    return context

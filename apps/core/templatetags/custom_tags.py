@@ -9,3 +9,11 @@ register = template.Library()
 def get_title(context, param, text):
     contact = Contacts.load()
     return contact.title
+
+
+@register.simple_tag
+def url_replace(request, **kwargs):
+    query = request.GET.copy()
+    query.pop('page', None)
+    query.update(kwargs)
+    return query.urlencode()

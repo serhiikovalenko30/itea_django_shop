@@ -4,6 +4,8 @@ from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.urls import reverse
 
+from django.utils.translation import gettext_lazy as _
+
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
@@ -24,8 +26,8 @@ class Category(models.Model):
     )
 
     class Meta:
-        verbose_name = 'категория'  # отображение названия модели в админке
-        verbose_name_plural = 'категории'  # во множественном числе
+        verbose_name = _('category')  # отображение названия модели в админке
+        verbose_name_plural = _('categories')  # во множественном числе
         ordering = ('title',)  # сортировка по title (в алфавитном порядке)
 
     def __str__(self):

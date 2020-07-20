@@ -1,8 +1,13 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static custom_tags %}
 
 {% block content %}
     <div class="row">
         {% include 'core/components/product_list.html' %}
     </div>
+
+    {% if is_paginated %}
+        {% include 'core/components/pagination.html' %}
+    {% endif %}
+
 {% endblock content %}
