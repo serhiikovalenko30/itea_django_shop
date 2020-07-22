@@ -24,6 +24,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('apps.core.urls', namespace='core')),
     path('', include('apps.order.urls', namespace='order')),
+    path('api/v1/', include('apps.api.v1.urls')),
     path('users/', include('apps.users.urls', namespace='users')),
     path('users/reset/<uidb64>/<token>/', PasswordResetConfirmView.as_view(),
          name='password_reset_confirm'),

@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'autoslug',
     'django_celery_beat',
+    'rest_framework',
 ] + LOCAL_APPS
 
 MIDDLEWARE = [

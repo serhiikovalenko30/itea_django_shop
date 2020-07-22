@@ -99,6 +99,21 @@ class ProductListView(ListView):
     queryset = Product.objects.all()
     paginate_by = 3
 
+    def render_to_response(self, context, **response_kwargs):
+        if self.request.is_ajax():
+            product_list = []
+            for product in context['product_list']:
+                product_list.append({
+                    'title': product.title,
+                    'category': product.category.title,
+                    'description': product.description,
+                    'price': product.price,
+                    'image': product.image.url if product.image else None,
+                })
+            return JsonResponse({'product_list': product_list})
+
+        return super().render_to_response(context, **response_kwargs)
+
     def get_queryset(self):
         order = self.request.GET.get('order', '-created_at')
         search = self.request.GET.get('search', '')
