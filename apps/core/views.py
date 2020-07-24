@@ -5,7 +5,7 @@ from apps.core.models import Category, Product, Tag
 
 def index(request):
     context = {}
-    category_qs = Category.objects.all()
+    category_qs = Category.objects.order_by('-views')[:5]
     product_qs = Product.objects.order_by('-title')[:3]
 
     context['category_list'] = category_qs
@@ -15,6 +15,8 @@ def index(request):
 
 def category_list(request):
     context = {}
+    category_qs = Category.objects.all()
+    context['category_list'] = category_qs
     return render(request, 'core/category_list.html', context)
 
 
@@ -22,12 +24,15 @@ def category_detail(request, slug):
     context = {}
     # category = Category.objects.filter(slug=slug).first()
     category = get_object_or_404(Category, slug=slug)
+    category.save()
     context['category'] = category
     return render(request, 'core/category.html', context)
 
 
 def product_list(request):
     context = {}
+    product_qs = Product.objects.filter(in_stock=1).order_by('-updated_at')
+    context['product_list'] = product_qs
     return render(request, 'core/product_list.html', context)
 
 

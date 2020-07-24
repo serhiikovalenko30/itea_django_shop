@@ -10,6 +10,7 @@ class Category(models.Model):
     """
     title = models.CharField(max_length=255)
     slug = models.SlugField(allow_unicode=True, default='', blank=True)
+    views = models.IntegerField()
 
     class Meta:
         verbose_name = 'категория'  # отображение названия модели в админке
@@ -23,6 +24,7 @@ class Category(models.Model):
         return reverse('core:category-detail', kwargs={'slug': self.slug})
 
     def save(self, *args, **kwargs):
+        self.views += 1
         self.slug = slugify(self.title, allow_unicode=True)
         super().save(*args, **kwargs)
 
@@ -114,5 +116,10 @@ class Product(models.Model):
 
     def save(self, *args, **kwargs):
         # здесь описываем логику до сохранения объекта
+        if self.price == 0 and self.in_stock:
+            self.in_stock = False
         super().save(*args, **kwargs)
         # здесь описываем логику после сохранения объекта
+
+    def price_with_discount(self, *args, **kwargs):
+        return self.price * (100 - self.discount)/100  if self.price != 0 else 0

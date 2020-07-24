@@ -1,26 +1,15 @@
+{% extends 'base.html' %}
 {% load static %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Shop</title>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-</head>
-<body>
-
-    <header>
-        {% include 'components/header.html' %}
-    </header>
-
+{% block main %}
     <main>
         <div class="container">
-
+            {% for product in product_list %}
+                <h1>Продукт: {{ product.title|title }}</h1>
+                <h1>Цена: {{ product.price }}</h1>
+                <h1>Скидка:{{ product.discount }}%</h1>
+                <h1>Итого: {{ product.price_with_discount }}</h1>
+            {% endfor %}
         </div>
     </main>
-
-    <footer></footer>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-</body>
-</html>
+{% endblock main %}
